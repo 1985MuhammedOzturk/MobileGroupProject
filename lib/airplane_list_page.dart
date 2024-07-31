@@ -19,6 +19,7 @@ class _AirplaneListPageState extends State<AirplaneListPage> {
 
   void _refreshAirplaneList() async {
     final data = await DatabaseHelper.instance.queryAllRows();
+    print("Retrieved data: $data"); // Debug print
     setState(() {
       airplanes = data;
     });

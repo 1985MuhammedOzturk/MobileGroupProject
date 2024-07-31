@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'airplane_list_page.dart';
-// Import other pages for Customer, Flight, and Reservation when they are ready.
 
 void main() {
   runApp(MyApp());
