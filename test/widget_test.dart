@@ -7,24 +7,26 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:flight_automation_system/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('MainPage buttons smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Verify that our buttons are displayed on the MainPage.
+    expect(find.text('Customer'), findsOneWidget);
+    expect(find.text('Airplanes'), findsOneWidget);
+    expect(find.text('Flight'), findsOneWidget);
+    expect(find.text('Reservation'), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // You can add more detailed tests here for each button and their navigation actions.
+    // For example, to test the Airplanes button:
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    await tester.tap(find.text('Airplanes'));
+    await tester.pumpAndSettle(); // Wait for navigation
+
+    // Verify that the AirplaneListPage is displayed.
+    expect(find.text('Airplane List'), findsOneWidget);
   });
 }
