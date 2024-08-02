@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'database_helper.dart';
-import 'add_airplane_page.dart';
-import 'edit_airplane_page.dart';
+import 'database_helper.dart'; // Make sure this file exists and is correctly implemented.
+import 'airplane.dart'; // Make sure this file exists and is correctly implemented.
+import 'localization.dart';
+import 'add_edit_airplane_page.dart'; // Import the add/edit airplane page
 
 class AirplaneListPage extends StatefulWidget {
   @override
@@ -9,63 +10,44 @@ class AirplaneListPage extends StatefulWidget {
 }
 
 class _AirplaneListPageState extends State<AirplaneListPage> {
-  List<Map<String, dynamic>> airplanes = [];
+  List<Airplane> _airplanes = [];
 
   @override
   void initState() {
     super.initState();
-    _refreshAirplaneList();
+    _loadAirplanes();
   }
 
-  void _refreshAirplaneList() async {
-    final data = await DatabaseHelper.instance.queryAllRows();
-    print("Retrieved data: $data"); // Debug print
+  Future<void> _loadAirplanes() async {
+    final airplanes = await DatabaseHelper.instance.getAirplanes();
     setState(() {
-      airplanes = data;
+      _airplanes = airplanes;
     });
-  }
-
-  void _addAirplane(Map<String, dynamic> newAirplane) async {
-    await DatabaseHelper.instance.insert(newAirplane);
-    _refreshAirplaneList();
-  }
-
-  void _updateAirplane(Map<String, dynamic> updatedAirplane) async {
-    await DatabaseHelper.instance.update(updatedAirplane);
-    _refreshAirplaneList();
-  }
-
-  void _deleteAirplane(int id) async {
-    await DatabaseHelper.instance.delete(id);
-    _refreshAirplaneList();
   }
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Airplane List'),
+        title: Text(localizations.translate('Airplanes')),
       ),
       body: ListView.builder(
-        itemCount: airplanes.length,
+        itemCount: _airplanes.length,
         itemBuilder: (context, index) {
+          final airplane = _airplanes[index];
           return ListTile(
-            title: Text(airplanes[index]['type']),
-            subtitle: Text('Capacity: ${airplanes[index]['capacity']}'),
+            title: Text(airplane.type),
+            subtitle: Text(
+              '${localizations.translate('Passengers')}: ${airplane.passengers}, ${localizations.translate('Max Speed')}: ${airplane.maxSpeed} km/h, ${localizations.translate('Range')}: ${airplane.range} km',
+            ),
             onTap: () async {
-              final result = await Navigator.push(
+              bool? result = await Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => EditAirplanePage(airplane: airplanes[index]),
-                ),
+                MaterialPageRoute(builder: (context) => AddEditAirplanePage(airplane: airplane)),
               );
-
-              if (result != null) {
-                if (result['delete'] == true) {
-                  _deleteAirplane(result['_id']);
-                } else {
-                  _updateAirplane(result);
-                }
+              if (result == true) {
+                _loadAirplanes();
               }
             },
           );
@@ -73,12 +55,12 @@ class _AirplaneListPageState extends State<AirplaneListPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          final newAirplane = await Navigator.push(
+          bool? result = await Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AddAirplanePage()),
+            MaterialPageRoute(builder: (context) => AddEditAirplanePage()),
           );
-          if (newAirplane != null) {
-            _addAirplane(newAirplane);
+          if (result == true) {
+            _loadAirplanes();
           }
         },
         child: Icon(Icons.add),

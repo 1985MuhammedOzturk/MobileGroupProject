@@ -13,6 +13,11 @@ dependencies:
   cupertino_icons: ^1.0.6
   sqflite: ^2.0.0+3
   path: ^1.8.1
+  shared_preferences: ^2.0.6
+  intl: ^0.18.1
+  flutter_localizations:
+    sdk: flutter
+  flutter_secure_storage: ^5.0.2  # Add this line
 
 dev_dependencies:
   flutter_test:
@@ -21,3 +26,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/translations/en.json
+    - assets/translations/fr.json
