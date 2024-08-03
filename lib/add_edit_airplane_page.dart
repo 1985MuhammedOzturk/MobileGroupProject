@@ -4,21 +4,31 @@ import 'airplane.dart';
 import 'localization.dart';
 import 'secure_storage.dart';
 
+///StatefulWidget allows the user to add or edit an airplane.
 class AddEditAirplanePage extends StatefulWidget {
+  ///The airplane to be edited
   final Airplane? airplane;
 
+  ///Creates an instance of AddEditAirplanePage
   AddEditAirplanePage({Key? key, this.airplane}) : super(key: key);
 
   @override
   _AddEditAirplanePageState createState() => _AddEditAirplanePageState();
 }
 
+///The state for AddEditAirPlanePage
 class _AddEditAirplanePageState extends State<AddEditAirplanePage> {
+  ///formkey is used to validate the form
   final _formKey = GlobalKey<FormState>();
+  ///type of the airplane
   late String _type;
+  ///the number of passengers. capacity of the airplane
   late int _passengers;
+  ///maximum speed of the plane
   late int _maxSpeed;
+  ///the range distance of the airplane
   late int _range;
+  ///an instance of secure storage is to store the airplane data.
   final SecureStorage secureStorage = SecureStorage();
 
   @override
@@ -37,6 +47,7 @@ class _AddEditAirplanePageState extends State<AddEditAirplanePage> {
     }
   }
 
+  ///saves the form data to the database and secure storage.
   void _saveForm() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
@@ -54,7 +65,7 @@ class _AddEditAirplanePageState extends State<AddEditAirplanePage> {
         await DatabaseHelper.instance.updateAirplane(airplane);
       }
 
-      // Save data to secure storage
+      // saves data to secure storage
       await secureStorage.writeData('airplane_${airplane.id}_type', airplane.type);
       await secureStorage.writeData('airplane_${airplane.id}_passengers', airplane.passengers.toString());
       await secureStorage.writeData('airplane_${airplane.id}_maxSpeed', airplane.maxSpeed.toString());
@@ -79,6 +90,7 @@ class _AddEditAirplanePageState extends State<AddEditAirplanePage> {
     }
   }
 
+  ///deletes the airplane from the database and secure storage
   void _deleteAirplane() async {
     if (widget.airplane != null) {
       await DatabaseHelper.instance.deleteAirplane(widget.airplane!.id!);
@@ -89,6 +101,7 @@ class _AddEditAirplanePageState extends State<AddEditAirplanePage> {
       Navigator.pop(context, true);
 
       ScaffoldMessenger.of(context).showSnackBar(
+        ///snackbar
         SnackBar(
           content: Text(AppLocalizations.of(context).translate('Airplane deleted successfully')),
         ),
@@ -96,6 +109,7 @@ class _AddEditAirplanePageState extends State<AddEditAirplanePage> {
     }
   }
 
+  ///Builds the UI for the Add/Edit Airplane Page
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);

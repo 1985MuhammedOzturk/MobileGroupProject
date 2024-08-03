@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
-import 'database_helper.dart'; // Make sure this file exists and is correctly implemented.
-import 'airplane.dart'; // Make sure this file exists and is correctly implemented.
+import 'database_helper.dart';
+import 'airplane.dart';
 import 'localization.dart';
-import 'add_edit_airplane_page.dart'; // Import the add/edit airplane page
+import 'add_edit_airplane_page.dart';
 
+///StatefulWidget displays the airplane list.
 class AirplaneListPage extends StatefulWidget {
   @override
   _AirplaneListPageState createState() => _AirplaneListPageState();
 }
 
+///the state for AirplaneListPage
 class _AirplaneListPageState extends State<AirplaneListPage> {
   List<Airplane> _airplanes = [];
 
+  ///the list of airplanes
   @override
   void initState() {
     super.initState();
     _loadAirplanes();
   }
-
+///loading the airplane list from database
   Future<void> _loadAirplanes() async {
     final airplanes = await DatabaseHelper.instance.getAirplanes();
     setState(() {

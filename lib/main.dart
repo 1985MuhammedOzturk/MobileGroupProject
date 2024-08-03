@@ -2,22 +2,26 @@ import 'package:flutter/material.dart';
 import 'airplane_list_page.dart';
 import 'localization.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'add_edit_airplane_page.dart'; // Import the add/edit airplane page
+import 'add_edit_airplane_page.dart';
 
+/// The main function is the entry point for the application.
 void main() {
   runApp(MyApp());
 }
-
+///The root widget
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 }
-
+///The state class
 class _MyAppState extends State<MyApp> {
+  ///_locale holds the current locale
   Locale _locale = Locale('en', 'US');
 
+  /// _changeLanguage changes the locale and displays a snackbar.
   void _changeLanguage(Locale locale) {
     setState(() {
+      ///new locale
       _locale = locale;
     });
 
@@ -49,11 +53,12 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
+///Main screen of the application.
 class MainPage extends StatelessWidget {
+  ///Function to change the locale
   final Function(Locale) onLocaleChange;
   final Locale locale;
-
+///Creates MainPage widget.
   MainPage({required this.onLocaleChange, required this.locale});
 
   @override
