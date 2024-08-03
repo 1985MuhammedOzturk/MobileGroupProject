@@ -188,7 +188,7 @@ class MainPage extends StatelessWidget {
               TextButton(
                 onPressed: () => _showGuideDialog(context),
                 child: const Text(
-                  'Take A Quick Guide',
+                  'How To Use This Platform',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 15,
