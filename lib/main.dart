@@ -1,7 +1,8 @@
+import 'package:flight_automation_system/new_flight_page.dart';
 import 'package:flutter/material.dart';
 import 'airplane_list_page.dart';
-import 'package:flight_automation_system/flights.dart';
-
+import 'flights_page.dart';
+import 'customer_page.dart'; // Import the CustomerPage
 
 
 void main() {
@@ -43,19 +44,25 @@ class MainPage extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                // Navigate to Customer page when ready
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CustomerPage()),
+                );
               },
               child: Text('Customer'),
             ),
             ElevatedButton(
               onPressed: () {
-                // Navigate to Flight page when ready
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => NewFlightPage()),
+                );
               },
               child: Text('Flight'),
             ),
             ElevatedButton(
-              onPressed: () {
-                // Navigate to Reservation page when ready
+               onPressed: ()  {
+
               },
               child: Text('Reservation'),
             ),
