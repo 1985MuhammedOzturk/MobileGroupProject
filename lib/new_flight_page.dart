@@ -16,6 +16,28 @@ class _NewFlightPageState extends State<NewFlightPage> {
   List<Flight> _flights = [];
   Flight? _selectedFlight;
 
+  void _showInstructions(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Instructions'),
+        content: Text(
+          '1. Use the form to add or update flight details.\n'
+              '2. Fill in the departure and arrival cities, flight number, and times.\n'
+              '3. Press "Add Flight" to save a new flight.\n'
+              '4. Press "Update Flight" to modify an existing flight.\n'
+              '5. Use the list below to view, update, or delete flights.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
   void _addFlight() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
@@ -30,6 +52,10 @@ class _NewFlightPageState extends State<NewFlightPage> {
         _flights.add(newFlight);
       });
       _formKey.currentState!.reset();
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Flight added successfully')),
+      );
     }
   }
 
@@ -52,10 +78,28 @@ class _NewFlightPageState extends State<NewFlightPage> {
   }
 
   void _deleteFlight(Flight flight) {
-    setState(() {
-      _flights.remove(flight);
-      // Here, you would also remove the flight from the database
-    });
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Delete Flight'),
+        content: Text('Are you sure you want to delete this flight?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              setState(() {
+                _flights.remove(flight);
+              });
+              Navigator.pop(context);
+            },
+            child: Text('Delete'),
+          ),
+        ],
+      ),
+    );
   }
 
   void _viewFlightDetails(Flight flight) {
@@ -110,6 +154,12 @@ class _NewFlightPageState extends State<NewFlightPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Manage Flights'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.info_outline),
+            onPressed: () => _showInstructions(context),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
