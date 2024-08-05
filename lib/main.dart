@@ -1,15 +1,16 @@
-import 'package:flight_automation_system/new_flight_page.dart';
 import 'package:flutter/material.dart';
+import 'new_flight_page.dart';
 import 'airplane_list_page.dart';
-import 'flights_page.dart';
-import 'customer_page.dart'; // Import the CustomerPage
+
 
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MainPage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,10 +46,7 @@ class MainPage extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CustomerPage()),
-                );
+
               },
               child: Text('Customer'),
             ),
@@ -61,8 +60,8 @@ class MainPage extends StatelessWidget {
               child: Text('Flight'),
             ),
             ElevatedButton(
-               onPressed: ()  {
-
+              onPressed: () {
+                // Add navigation for Reservation Page
               },
               child: Text('Reservation'),
             ),

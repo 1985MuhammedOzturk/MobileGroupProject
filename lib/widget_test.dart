@@ -12,6 +12,7 @@ import 'package:flight_automation_system/main.dart';
 void main() {
   testWidgets('MainPage buttons smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
+    var database;
     await tester.pumpWidget(MyApp());
 
     // Verify that our buttons are displayed on the MainPage.
